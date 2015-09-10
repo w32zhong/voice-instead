@@ -1,0 +1,26 @@
+div.panel_click_button {
+	cursor: pointer;
+    color: #FF00FF;
+	text-decoration: none;
+	font-weight: bold;
+	display:inline;
+	margin: 0 5px 0 5px;
+}
+
+div.panel_click_button:hover {
+    color: #FF0000;
+	display:inline;
+	margin: 0 5px 0 5px;
+}
+
+#jquery_jplayer_vi_panel a:link {
+    color: #FF00FF;
+	text-decoration: underline;
+}
+#jquery_jplayer_vi_panel a:visited {
+    color: #FF00FF;
+	text-decoration: underline;
+}
+#jquery_jplayer_vi_panel a:hover {
+    color: #FF0000;
+}
