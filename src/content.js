@@ -10,18 +10,27 @@ function add_only_one(id_name, content)
 $(document).ready(function(){
 	add_only_one('jquery_jplayer_1', '');
 	add_only_one('jquery_jplayer_2', '');
+	swf_path = chrome.extension.getURL("jquery.jplayer.swf");
 
 	$("#jquery_jplayer_1").jPlayer({
+		//以下不能解决opera播放mp3的问题，不知为何
+		//supplied: "mp3",
+		//swfPath: swf_path,
+		//solution: "flash, html",
 		loop: false,
-		swfPath: "http://www.jplayer.org/latest/js/Jplayer.swf",
 		wmode: "window"
 	});
 
 	$("#jquery_jplayer_2").jPlayer({
+		//以下不能解决opera播放mp3的问题，不知为何
+		//supplied: "mp3",
+		//swfPath: swf_path,
+		//solution: "flash, html",
 		loop: false,
-		swfPath: "http://www.jplayer.org/latest/js/Jplayer.swf",
 		wmode: "window"
 	});
+
+	console.log('loading flash player:' + swf_path);
 
 	chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -159,7 +168,7 @@ function str_panel()
 function tts(text, turn, pause_at_start, u_are_final_buf) {
   //var tts_api_url = "http://api.voicerss.org/?key=a6c5417f9311468eac17ef8f62922d92&c=WAV&hl=en-us&f=22khz_8bit_mono&src=" + encodeURIComponent(text);
   //上面是公开的API，优点是无限句子长度，缺点是限流量。
-  var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text);
+  var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text) + "&c=ogg";
   //上面是demo页面的调用，只是限句子长度，应该不限流量，正合我意。
 
   var lock=0;
