@@ -30,7 +30,7 @@ $(document).ready(function(){
 		wmode: "window"
 	});
 
-	console.log('loading flash player:' + swf_path);
+	//console.log('loading flash player:' + swf_path);
 
 	chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -168,7 +168,7 @@ function str_panel()
 function tts(text, turn, pause_at_start, u_are_final_buf) {
   //var tts_api_url = "http://api.voicerss.org/?key=a6c5417f9311468eac17ef8f62922d92&c=WAV&hl=en-us&f=22khz_8bit_mono&src=" + encodeURIComponent(text);
   //上面是公开的API，优点是无限句子长度，缺点是限流量。
-  var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text) + "&c=ogg";
+  var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text); // + "&c=ogg";// 开启之后没有duration. 
   //上面是demo页面的调用，只是限句子长度，应该不限流量，正合我意。
 
   var lock=0;
@@ -183,6 +183,8 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 	  hide_load_status();
 	  delay_and_show_panel();
 	}
+
+	//console.log('left time:' + status.duration + ' - ' + status.currentTime);
 	
 	if (status.duration > 0 && left_time < 1.2) {
 		console.log('player ' + turn + ' ending... Am I the final one? ' 
@@ -205,22 +207,6 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 	
   });
   
-  /*turns[turn].unbind($.jPlayer.event.ended).bind($.jPlayer.event.ended, function(my_event) { 
-      console.log('player ' + turn + ' ends');
-	  var status = turns[(turn+1)%2].data("jPlayer").status;
-
-	  if (!status.ended) {
-	    turns[(turn+1)%2].jPlayer("unmute");
-	    turns[(turn+1)%2].jPlayer("play");
-	    //turns[(turn+1)%2].unbind($.jPlayer.event.timeupdate);
-	    console.log('player ' + (turn+1)%2 + ' unmute and paly');
-	  }
-
-	  if (window.remain.length > 0) {
-	    wrap_tts(turn, 1);
-	  }
-  });*/
-
   turns[turn].jPlayer("setMedia", {
     mp3: tts_api_url
   }).jPlayer("load");

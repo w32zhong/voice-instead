@@ -1,6 +1,6 @@
 {
   "name": "Voice Instead",
-  "version": "15.10.15.23",
+  "version": "15.10.15.24",
   "manifest_version": 2,
   
   "permissions": [
@@ -29,7 +29,7 @@
       "matches": ["<all_urls>"],
 	  "css": ["css_file.css"],
       "all_frames": false,
-      "js": ["jquery.min.js","jquery.jplayer.js","content.js"]
+      "js": ["jquery.min.js","jquery.jplayer.min.js","content.js"]
     }
   ]
 }
