@@ -15,7 +15,7 @@ Note: Only English speech conversion is supported so far. And speech conversion 
 Important Changes:
 
 Version 16.5.6.28:
-* Use image button istead of font button on top panel.
+* Use image button instead of font button on top panel.
 
 Version 16.5.6.28:
 * Fix a minor js issue.
