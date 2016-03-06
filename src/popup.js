@@ -17,6 +17,9 @@ angular.module('Hello', []).controller('HelloCtrl', function($scope) {
 			$scope.selectVolume = cf.selectVolume;
 			$scope.selectVoice = cf.selectVoice;
 		});
+		
+		/* in case of deleting storage during session */
+		send_msg("adjust_parameters", cf);
 	});
 
 	send_msg("stop_cur_speech", 'empty');
