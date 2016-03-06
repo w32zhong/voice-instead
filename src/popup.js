@@ -48,6 +48,5 @@ angular.module('Hello', []).controller('HelloCtrl', function($scope) {
 		config_write(cf);
 
 		send_msg("adjust_parameters", cf);
-		config_write(new_config);
 	};
 });
