@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="Hello">
+<head>
+<link href="bootstrap.min.css" rel="stylesheet">
+<script src="angular.min.js"></script>
+<script src="config.js"></script>
+<script src="popup.js"></script>
+<style>
+</style>
+</head>
+<body>
+<div style="width:350px;" ng-controller="HelloCtrl">
+  <h3>Voice Instead Options</h3>
+	<form>
+	<div class="form-group">
+		<label>Speed</label>
+		<select class="form-control" ng-model="selectSpeed" ng-change="on_change()">
+		<option>0.2</option>
+		<option>0.4</option>
+		<option>0.5</option>
+		<option>0.6</option>
+		<option>0.7</option>
+		<option>0.8</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label>Volume</label>
+		<select class="form-control" ng-model="selectVolume" ng-change="on_change()">
+		<option>0.2</option>
+		<option>0.4</option>
+		<option>0.6</option>
+		<option>0.8</option>
+		<option>1.0</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label>Voice</label>
+		<select class="form-control" ng-model="selectVoice" ng-change="on_change()">
+		<option>US</option>
+		<option>British</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+	<button class="btn btn-warning" ng-click="test_sentence()">
+	Test it in your opened tab now
+	</button>
+	<button class="btn btn-default" ng-click="reset_to_default()">
+	Reset to default
+	</button>
+	</div>
+
+	</form>
+<!--
+<ul>
+<li>Speed = {{selectSpeed}}</li>
+<li>Volume = {{selectVolume}}</li>
+<li>Voice = {{selectVoice}}</li>
+</ul>
+-->
+</div>
+</body>
+</html>

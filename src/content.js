@@ -1,5 +1,6 @@
 g_show_panel_lock = 0;
 g_now_playing = 0;
+g_api_parameters = {};
 
 function add_only_one(id_name, content)
 {
@@ -10,44 +11,47 @@ function add_only_one(id_name, content)
 $(document).ready(function(){
 	add_only_one('jquery_jplayer_1', '');
 	add_only_one('jquery_jplayer_2', '');
-	swf_path = chrome.extension.getURL("jquery.jplayer.swf");
 
 	$("#jquery_jplayer_1").jPlayer({
-		//以下不能解决opera播放mp3的问题，不知为何
-		//supplied: "mp3",
-		//swfPath: swf_path,
-		//solution: "flash, html",
 		loop: false,
 		wmode: "window"
 	});
 
 	$("#jquery_jplayer_2").jPlayer({
-		//以下不能解决opera播放mp3的问题，不知为何
-		//supplied: "mp3",
-		//swfPath: swf_path,
-		//solution: "flash, html",
 		loop: false,
 		wmode: "window"
 	});
 
-	//console.log('loading flash player:' + swf_path);
+	console.log("Voice Instead ready.");
+
+	config_read(function (cf) {
+		g_api_parameters = cf;
+		console.log(g_api_parameters);
+	});
 
 	chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
-	  var replaced = request.my_msg;
-		/* ignore some char that causes API returning ERR 500 */
-	  replaced = replaced.replace(/</g, ' ');
-	  replaced = replaced.replace(/>/g, ' ');
-	  to_speech(replaced);
+		if (request.my_msg_type == "select_and_tts") {
+			var replaced = request.my_msg;
+			/* ignore some char that causes API returning ERR 500 */
+			replaced = replaced.replace(/</g, ' ');
+			replaced = replaced.replace(/>/g, ' ');
+			to_speech(replaced);
+		} else if (request.my_msg_type == "adjust_parameters") {
+			g_api_parameters = request.my_msg;
+			console.log(g_api_parameters);
+		} else if (request.my_msg_type == "stop_cur_speech") {
+			user_stop_speech();
+		}
 	});
 });
 
-jQuery.fn.center = function () 
+jQuery.fn.center = function ()
 {
 	this.css("position","absolute");
-	this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+	this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
 				$(window).scrollTop()) + "px");
-	this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+	this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
 				$(window).scrollLeft()) + "px");
 	return this;
 }
@@ -56,25 +60,24 @@ jQuery.fn.top_center = function ()
 {
 	this.css("position","fixed");
 	this.css("top", "0px");
-	this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+	this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
 				$(window).scrollLeft()) + "px");
 	return this;
 }
 
 $(window).scroll(function() 
 { 
-	$('#jquery_jplayer_status').center(); 
-	$('#jquery_jplayer_vi_panel').top_center(); 
+	$('#jquery_jplayer_status').center();
+	$('#jquery_jplayer_vi_panel').top_center();
 });
 
 function show_load_status()
 {
 	add_only_one('jquery_jplayer_status', str_loading());
-	//old version uses: 
-	//parent.$('body').append('<div id="jquery_jplayer_status">' + str_loading() + '</div>');
 	
 	$("#jquery_jplayer_status").css({
 		"background-color": "yellow",
+		"border": "0",
 		"font-family": "DejaVu Sans",
 		"border-style" : "outset", 
 		"-webkit-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
@@ -145,7 +148,7 @@ function try_show_panel()
 function delay_and_show_panel()
 {
 	g_show_panel_lock = 0;
-	setTimeout(function(){ try_show_panel(); }, 3000);
+	setTimeout(function(){ try_show_panel(); }, 2000);
 }
 
 function hide_panel()
@@ -162,14 +165,27 @@ function str_loading()
 
 function str_panel()
 {
-	return '<div id="user_play_speech_link" class="panel_click_button">&#9654;</div> <div id="user_pause_speech_link" class="panel_click_button">&#8545;</div> <div id="user_stop_speech_link" class="panel_click_button">&#9726;</div> &nbsp; Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!';
+	return '<div id="user_play_speech_link" class="panel_click_button">&#9654;</div> <div id="user_pause_speech_link" class="panel_click_button">&#8545;</div> <div id="user_stop_speech_link" class="panel_click_button">&#9726;</div> &nbsp;' +
+	'<br/> In this version, you can adjust speed by clicking the upper right popup icon :)' +
+	'<br/> Is that what you want? Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!';
 }
 
 function tts(text, turn, pause_at_start, u_are_final_buf) {
   //var tts_api_url = "http://api.voicerss.org/?key=a6c5417f9311468eac17ef8f62922d92&c=WAV&hl=en-us&f=22khz_8bit_mono&src=" + encodeURIComponent(text);
   //上面是公开的API，优点是无限句子长度，缺点是限流量。
-  var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text); // + "&c=ogg";// 开启之后没有duration. 
+  //var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text); // + "&c=ogg";// 开启之后没有duration. 
   //上面是demo页面的调用，只是限句子长度，应该不限流量，正合我意。
+  var voice_str = "tl=en-US";
+  if (g_api_parameters.selectVoice == "British") {
+	voice_str = "tl=en-GB";
+  }
+
+  var tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
+                    "rate=" + g_api_parameters.selectSpeed + "&" +
+                    "vol=" + g_api_parameters.selectVolume + "&" +
+					voice_str + "&" + 
+                    "t=" + encodeURIComponent(text);
+  //上面的API可以调速度！
 
   var lock=0;
   var turns=[$("#jquery_jplayer_1"), $("#jquery_jplayer_2")];
@@ -178,27 +194,30 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 	var status = my_event.jPlayer.status;
 	var left_time = status.duration - status.currentTime; 
 	
-	if (!lock && status.duration > 0) {
-	  lock = 1;
-	  hide_load_status();
-	  delay_and_show_panel();
-	}
+	  if (!lock && status.currentTime > 0) {
+		  lock = 1;
+		  //console.log('lock and hide loading icon...');
+		  hide_load_status();
+		  delay_and_show_panel();
+	  }
 
-	//console.log('left time:' + status.duration + ' - ' + status.currentTime);
+	//console.log('['+turn+'] left time:'+status.duration+' - '+status.currentTime+' = '
+		//+left_time);
 	
-	if (status.duration > 0 && left_time < 1.2) {
-		console.log('player ' + turn + ' ending... Am I the final one? ' 
-		            + u_are_final_buf);
+	/* !! Important, if our API provides status.duration (non-zero),
+	 * we should use "if (left_time < 1.2)" to start ealier on the 
+	 * next sentence. */
+	//if (status.duration > 0 && left_time < 1.2) {
+	if (status.duration > 0 && left_time == 0) {
 			
 		if (u_are_final_buf) {
-			turns[turn].jPlayer("stop");
+			console.log('[player ' + turn + ' is the final one, play to the end.]' );
 			hide_panel();
 		} else {
-			console.log('buffered player ' + (turn+1)%2 + ' palys');
-
 			g_now_playing = (turn+1)%2;
-			console.log('Now playing ' + g_now_playing + ' ...');
+			//console.log('Change to ' + g_now_playing + ' playing ...');
 
+			console.log('[buffered player ' + (turn+1)%2 + ' palys]');
 			turns[(turn+1)%2].jPlayer("unmute");
 			turns[(turn+1)%2].jPlayer("play");
 			wrap_tts(turn, 1);
@@ -210,12 +229,13 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
   turns[turn].jPlayer("setMedia", {
     mp3: tts_api_url
   }).jPlayer("load");
-  console.log('player ' + turn + ' buffers: ' + text);
+  console.log('player ' + turn + ' buffers: [[' + text + ']]');
 
   if (pause_at_start) {
+	  //console.log('[player ' + turn + ' mutes]');
 	  turns[turn].jPlayer("mute");
   } else {
-	  console.log('player ' + turn + ' plays ');
+	  console.log('[first player ' + turn + ' plays]');
 	  turns[turn].jPlayer("play");
   }
 }
@@ -234,7 +254,6 @@ function to_speech(text)
   prepare_panel();
 
   g_now_playing = 0;
-  console.log('Now playing ' + g_now_playing + ' ...');
 }
 
 function wrap_tts(turn, pause_at_start)
@@ -266,27 +285,29 @@ function slice_str(text)
 		if (sub_idx == -1 || idx + sub_idx > min_len) {
 			/* then try space */
 			sub_idx = sub_str.indexOf(' ');
+
 			if (sub_idx == -1 || idx + sub_idx > min_len) {
-				if (idx == 0) {
-					/* WTF ... */
-					sub_idx = min_len - idx - 1;
-					idx += sub_idx + 1; /* exactly min_len */
-					console.log('slice: force increment, len = ' + sub_idx);
-				} else {
-					/* just give up the next word */
-					sub_idx = 0;
+				if (sub_idx == -1) {
+					/* the next word is the last word, break */
 					not_break = 0;
-					console.log('slice: give up the next word. (zero increment)');
+					//console.log('slice: add the last words.');
+					idx += sub_str.length;
+				} else {
+					/* exceed min len, break */
+					not_break = 0;
+					//console.log('slice: now, I do not want more words.');
+					idx += sub_idx + 1;
 				}
 			} else {
-				console.log('slice: increment by space, len = ' + sub_idx);
+				//console.log('slice: increment by space, len = ' + sub_idx);
 				idx += sub_idx + 1;
 			}
 		} else {
-			console.log('slice: increment by period/comma, len = ' + sub_idx);
+			//console.log('slice: increment by period/comma, len = ' + sub_idx);
 			idx += sub_idx + 1;
 		}
 
+		//console.log('slice: [[' + text.substring(0, idx) + ']] idx = ' + idx + ' / 80');
 		sub_str = sub_str.substr(sub_idx + 1);
 	}
 
