@@ -83,7 +83,7 @@ function show_load_status()
 		"-webkit-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
 		"-moz-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
 		"box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
-		"z-index":"99999999"
+		"z-index":"2147483640 !important" 
 	}).center().hide().fadeIn();
 	
 	$('#jquery_jplayer_status').center(); 
@@ -124,7 +124,7 @@ function prepare_panel()
 		"font-family": "DejaVu Sans",
 		"color": "#222",
 		"margin": "0 0 0 0",
-		"z-index":"99999999"
+		"z-index":"2147483640 !important" 
 	}).top_center().hide();	
 
 	$('#jquery_jplayer_vi_panel').top_center(); 

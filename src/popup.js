@@ -45,6 +45,7 @@ angular.module('Hello', []).controller('HelloCtrl', function($scope) {
 		$scope.selectSpeed = cf.selectSpeed;
 		$scope.selectVolume = cf.selectVolume;
 		$scope.selectVoice = cf.selectVoice;
+		config_write(cf);
 
 		send_msg("adjust_parameters", cf);
 		config_write(new_config);
