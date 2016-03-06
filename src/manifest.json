@@ -1,6 +1,6 @@
 {
   "name": "Voice Instead",
-  "version": "16.5.6.28",
+  "version": "16.5.6.29",
   "manifest_version": 2,
   
   "permissions": [
@@ -11,8 +11,10 @@
   ],
   
   "web_accessible_resources": [
-    "loader.gif",
-    "jquery.jplayer.swf"
+    "fa-play.png",
+    "fa-pause.png",
+    "fa-stop.png",
+    "loader.gif"
   ],
 
   "icons": {

@@ -1,14 +1,10 @@
 div.panel_click_button {
 	cursor: pointer;
-    color: #FF00FF;
-	text-decoration: none;
-	font-weight: bold;
 	display:inline;
 	margin: 0 5px 0 5px;
 }
 
 div.panel_click_button:hover {
-    color: #FF0000;
 	display:inline;
 	margin: 0 5px 0 5px;
 }

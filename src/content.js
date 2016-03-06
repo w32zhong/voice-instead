@@ -165,9 +165,15 @@ function str_loading()
 
 function str_panel()
 {
-	return '<div id="user_play_speech_link" class="panel_click_button">&#9654;</div> <div id="user_pause_speech_link" class="panel_click_button">&#8545;</div> <div id="user_stop_speech_link" class="panel_click_button">&#9726;</div> &nbsp;' +
-	'<br/> In this version, you can adjust speed by clicking the upper right popup icon :)' +
-	'<br/> Is that what you want? Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!';
+	var play = '<div id="user_play_speech_link" class="panel_click_button"><img src="' +
+	           chrome.extension.getURL("fa-play.png") + '"/></div>';
+	var pause = '<div id="user_pause_speech_link" class="panel_click_button"><img src="' +
+	           chrome.extension.getURL("fa-pause.png") + '"/></div>';
+	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img src="' +
+	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
+	return play + pause + stop +
+	'<br/> Now you can control speed by clicking the upper right popup panel :)' +
+	'<br/> Welcome feedback on <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">this version</a>!';
 }
 
 function tts(text, turn, pause_at_start, u_are_final_buf) {
