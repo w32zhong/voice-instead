@@ -56,10 +56,11 @@ jQuery.fn.center = function ()
 	return this;
 }
 
-jQuery.fn.top_center = function () 
+jQuery.fn.bottom_center = function () 
 {
 	this.css("position","fixed");
-	this.css("top", "0px");
+	this.css("bottom", "0px");
+	this.css("height", "-" + g_panel_height);
 	this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
 				$(window).scrollLeft()) + "px");
 	return this;
@@ -68,13 +69,15 @@ jQuery.fn.top_center = function ()
 $(window).scroll(function() 
 { 
 	$('#jquery_jplayer_status').center();
-	$('#jquery_jplayer_vi_panel').top_center();
+	$('#jquery_jplayer_vi_panel').bottom_center();
 });
 
 function show_load_status()
 {
 	add_only_one('jquery_jplayer_status', str_loading());
 	
+	$("#user_dismiss_status_link").click(function(){ hide_load_status(); });
+
 	$("#jquery_jplayer_status").css({
 		"background-color": "yellow",
 		"border": "0",
@@ -83,7 +86,8 @@ function show_load_status()
 		"-webkit-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
 		"-moz-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
 		"box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
-		"z-index":"2147483640 !important" 
+		"z-index": "2147483640 !important",
+		"opacity": "0.99"
 	}).center().hide().fadeIn();
 	
 	$('#jquery_jplayer_status').center(); 
@@ -112,6 +116,7 @@ function user_play_speech()
 	turns[g_now_playing].jPlayer("play");
 }
 
+var g_panel_height = "15 px";
 function prepare_panel()
 {
 	add_only_one('jquery_jplayer_vi_panel', str_panel());
@@ -124,10 +129,12 @@ function prepare_panel()
 		"font-family": "DejaVu Sans",
 		"color": "#222",
 		"margin": "0 0 0 0",
-		"z-index":"2147483640 !important" 
-	}).top_center().hide();	
+		"height": g_panel_height,
+		"z-index": "2147483640 !important",
+		"opacity": "0.99"
+	}).bottom_center().hide();	
 
-	$('#jquery_jplayer_vi_panel').top_center(); 
+	$('#jquery_jplayer_vi_panel').bottom_center(); 
 	$("#user_stop_speech_link").click(function(){ user_stop_speech(); });
 	$("#user_pause_speech_link").click(function(){ user_pause_speech(); });
 	$("#user_play_speech_link").click(function(){ user_play_speech(); });
@@ -160,7 +167,11 @@ function hide_panel()
 function str_loading()
 {
 	var loader = '<img style="float: left;" src="' + chrome.extension.getURL("loader.gif") + '" border="0"/>';
-	return loader + '<div style="float: right; font-size:15px; padding: 8px 10px 0px 10px; color: #222;"><span id="jquery_jplayer_status_span">Speach Loading...</span></div>';
+	return loader + '<div style="float: right; font-size:15px; padding: 8px 10px 0px 10px; color: #222;">' + 
+	'<span id="jquery_jplayer_status_span">Speach Loading...</span>' + 
+	'<br/>' + 
+	'Click <a href="javascript:void(0)" class="panel_click_button" id="user_dismiss_status_link">here</a> to dismiss.' + 
+	'</div>';
 }
 
 function str_panel()
@@ -172,26 +183,30 @@ function str_panel()
 	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img src="' +
 	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
 	return play + pause + stop +
-	'<br/> Now you can control speed by clicking the upper right popup panel :)' +
-	'<br/> Welcome feedback on <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">this version</a>!';
+	' feedback and your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!' +
+	'<br/> In this version, you can control speed by clicking the upper right popup panel.';
 }
 
 function tts(text, turn, pause_at_start, u_are_final_buf) {
+  var tts_api_url = 'http://example.net';
   //var tts_api_url = "http://api.voicerss.org/?key=a6c5417f9311468eac17ef8f62922d92&c=WAV&hl=en-us&f=22khz_8bit_mono&src=" + encodeURIComponent(text);
   //上面是公开的API，优点是无限句子长度，缺点是限流量。
-  //var tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text); // + "&c=ogg";// 开启之后没有duration. 
-  //上面是demo页面的调用，只是限句子长度，应该不限流量，正合我意。
-  var voice_str = "tl=en-US";
-  if (g_api_parameters.selectVoice == "British") {
-	voice_str = "tl=en-GB";
-  }
 
-  var tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
-                    "rate=" + g_api_parameters.selectSpeed + "&" +
-                    "vol=" + g_api_parameters.selectVolume + "&" +
-					voice_str + "&" + 
-                    "t=" + encodeURIComponent(text);
-  //上面的API可以调速度！
+  if (g_api_parameters.api_opt == 'old') {
+	tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text);
+  } else {
+	  var voice_str = "tl=en-US";
+	  if (g_api_parameters.selectVoice == "British") {
+		voice_str = "tl=en-GB";
+	  }
+
+	  var tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
+						"rate=" + g_api_parameters.selectSpeed + "&" +
+						"vol=" + g_api_parameters.selectVolume + "&" +
+						voice_str + "&" + 
+						"t=" + encodeURIComponent(text);
+	  //上面的API可以调速度！
+  }
 
   var lock=0;
   var turns=[$("#jquery_jplayer_1"), $("#jquery_jplayer_2")];
@@ -207,14 +222,17 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 		  delay_and_show_panel();
 	  }
 
-	//console.log('['+turn+'] left time:'+status.duration+' - '+status.currentTime+' = '
-		//+left_time);
+	// console.log('['+turn+'] left time:'+status.duration+' - '+status.currentTime+' = ' +left_time);
 	
 	/* !! Important, if our API provides status.duration (non-zero),
 	 * we should use "if (left_time < 1.2)" to start ealier on the 
 	 * next sentence. */
-	//if (status.duration > 0 && left_time < 1.2) {
-	if (status.duration > 0 && left_time == 0) {
+	var left_time_trigger = 0;
+	if (g_api_parameters.api_opt == 'old') {
+		left_time_trigger = 1.2
+	}
+
+	if (status.duration > 0 && left_time <= left_time_trigger) {
 			
 		if (u_are_final_buf) {
 			console.log('[player ' + turn + ' is the final one, play to the end.]' );

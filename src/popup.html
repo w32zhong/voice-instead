@@ -13,6 +13,26 @@
 <div style="width:350px;" ng-controller="HelloCtrl">
   <h3>Voice Instead Options</h3>
 	<form>
+
+	<div class="form-group">
+		<div class="radio">
+		<label>
+		<input type="radio" ng-model="api_opt" id="api_opt1" value="old" ng-change="on_change()">
+		Old TTS API: Smooth read, but you cannot control parameters.
+		</label>
+		</div>
+
+		<div class="radio">
+		<label>
+		<input type="radio" ng-model="api_opt" id="api_opt1" value="new" ng-change="on_change()">
+		New TTS API: Not good at punctuation, but you can control parameters.
+		</label>
+		</div>
+	</div>
+
+	<p class="bg-warning" ng-show="api_opt == 'old'">You cannot control parameters if you choose to use the old TTS API!</p>
+	<fieldset ng-disabled="api_opt == 'old'"> 
+	<!-- ======================== -->
 	<div class="form-group">
 		<label>Speed</label>
 		<select class="form-control" ng-model="selectSpeed" ng-change="on_change()">
@@ -43,6 +63,8 @@
 		<option>British</option>
 		</select>
 	</div>
+	<!-- ======================== -->
+	</fieldset>
 
 	<div class="form-group">
 	<button class="btn btn-warning" ng-click="test_sentence()">

@@ -11,24 +11,26 @@ function send_msg(msg_header, msg) {
 }
 
 angular.module('Hello', []).controller('HelloCtrl', function($scope) {
+	send_msg("stop_cur_speech", 'empty');
+
 	config_read(function (cf) {
 		$scope.$apply(function () {
 			$scope.selectSpeed = cf.selectSpeed;
 			$scope.selectVolume = cf.selectVolume;
 			$scope.selectVoice = cf.selectVoice;
+			$scope.api_opt = cf.api_opt;
 		});
 		
 		/* in case of deleting storage during session */
 		send_msg("adjust_parameters", cf);
 	});
 
-	send_msg("stop_cur_speech", 'empty');
-
 	$scope.on_change = function() {
 		var new_config =  {
 			'selectSpeed': $scope.selectSpeed,
 			'selectVolume': $scope.selectVolume,
-			'selectVoice': $scope.selectVoice
+			'selectVoice': $scope.selectVoice,
+			'api_opt': $scope.api_opt,
 		};
 
 		send_msg("adjust_parameters", new_config);
@@ -45,6 +47,7 @@ angular.module('Hello', []).controller('HelloCtrl', function($scope) {
 		$scope.selectSpeed = cf.selectSpeed;
 		$scope.selectVolume = cf.selectVolume;
 		$scope.selectVoice = cf.selectVoice;
+		$scope.api_opt = cf.api_opt;
 		config_write(cf);
 
 		send_msg("adjust_parameters", cf);

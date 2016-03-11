@@ -2,14 +2,16 @@ function config_default() {
 	return {
 		'selectSpeed': "0.5",
 		'selectVolume': "1.0",
-		'selectVoice': "US"
+		'selectVoice': "US",
+		'api_opt': "old"
 	};
 }
 
 function isEmpty(obj) {
 	if (obj.selectSpeed == null ||
 	obj.selectVolume == null ||
-	obj.selectVoice == null)
+	obj.selectVoice == null ||
+	obj.api_opt == null)
 		return true;
 	else
 		return false;

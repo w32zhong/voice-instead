@@ -14,7 +14,12 @@ Note: Only English speech conversion is supported so far. And speech conversion 
 
 Important Changes:
 
-Version 16.5.6.28:
+Version 16.3.11.30:
+* User can now dismiss loading status.
+* Panel bar is relocated to the bottom of page.
+* Backward compatibility: choice for new and old TTS API.
+
+Version 16.5.6.29:
 * Use image button instead of font button on top panel.
 
 Version 16.5.6.28:
