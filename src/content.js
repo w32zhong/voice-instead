@@ -170,7 +170,7 @@ function str_loading()
 	return loader + '<div style="float: right; font-size:15px; padding: 8px 10px 0px 10px; color: #222;">' + 
 	'<span id="jquery_jplayer_status_span">Speach Loading...</span>' + 
 	'<br/>' + 
-	'Click <a href="javascript:void(0)" class="panel_click_button" id="user_dismiss_status_link">here</a> to dismiss.' + 
+	'Click <a href="javascript:void(0)" id="user_dismiss_status_link">here</a> to dismiss.' + 
 	'</div>';
 }
 
@@ -183,7 +183,7 @@ function str_panel()
 	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img src="' +
 	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
 	return play + pause + stop +
-	' feedback and your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!' +
+	'Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!' +
 	'<br/> In this version, you can control speed by clicking the upper right popup panel.';
 }
 

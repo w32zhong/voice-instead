@@ -20,3 +20,15 @@ div.panel_click_button:hover {
 #jquery_jplayer_vi_panel a:hover {
     color: #FF0000;
 }
+
+#jquery_jplayer_status a:link {
+    color: #FF00FF;
+	text-decoration: underline;
+}
+#jquery_jplayer_status a:visited {
+    color: #FF00FF;
+	text-decoration: underline;
+}
+#jquery_jplayer_status a:hover {
+    color: #FF0000;
+}

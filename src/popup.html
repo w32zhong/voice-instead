@@ -30,7 +30,7 @@
 		</div>
 	</div>
 
-	<p class="bg-warning" ng-show="api_opt == 'old'">You cannot control parameters if you choose to use the old TTS API!</p>
+	<p class="bg-warning" ng-show="api_opt == 'old'">Notice: To access parameter controls, choose the new TTS API.</p>
 	<fieldset ng-disabled="api_opt == 'old'"> 
 	<!-- ======================== -->
 	<div class="form-group">
@@ -68,7 +68,7 @@
 
 	<div class="form-group">
 	<button class="btn btn-warning" ng-click="test_sentence()">
-	Test it in your opened tab now
+	Test the voice in this tab 
 	</button>
 	<button class="btn btn-default" ng-click="reset_to_default()">
 	Reset to default
