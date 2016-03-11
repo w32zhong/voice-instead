@@ -18,19 +18,19 @@
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt1" value="old" ng-change="on_change()">
-		Old TTS API: Smooth read, but you cannot control parameters.
+		Old TTS API: Smooth read, but you cannot adjust parameters.
 		</label>
 		</div>
 
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt1" value="new" ng-change="on_change()">
-		New TTS API: Not good at punctuation, but you can control parameters.
+		New TTS API: Not good at punctuation, but you can adjust parameters.
 		</label>
 		</div>
 	</div>
 
-	<p class="bg-warning" ng-show="api_opt == 'old'">Notice: To access parameter controls, choose the new TTS API.</p>
+	<p class="bg-warning" ng-show="api_opt == 'old'">Notice: To select options below, choose the new TTS API.</p>
 	<fieldset ng-disabled="api_opt == 'old'"> 
 	<!-- ======================== -->
 	<div class="form-group">
