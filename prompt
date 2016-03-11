@@ -14,7 +14,7 @@ Note: Only English speech conversion is supported so far. And speech conversion 
 
 Important Changes:
 
-Version 16.3.11.30:
+Version 16.103.11.30:
 * User can now dismiss loading status.
 * Panel bar is relocated to the bottom of page.
 * Backward compatibility: choice for new and old TTS API.
@@ -78,6 +78,6 @@ Version 13.8.12.7:
 * A great improvement on handling punctuation mark and other symbols.
 * Support added to webpages that contains <iframe> element(s).
 
-Help Voice Instead improve: Send feedbacks to clock126@126.com or zhongwei@udel.edu
+Help Voice Instead improve: Send feedbacks to clock126@126.com and zhongwei@udel.edu (please send to both email addresses).
 
 Is it useful? Help me rate it now!
