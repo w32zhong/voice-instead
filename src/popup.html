@@ -6,33 +6,75 @@
 <script src="angular.min.js"></script>
 <script src="config.js"></script>
 <script src="popup.js"></script>
+<link href="rzslider.min.css" rel="stylesheet">
+<script src="rzslider.min.js"></script>
 <style>
 </style>
 </head>
 <body>
-<div style="width:350px;" ng-controller="HelloCtrl">
-  <h3>Voice Instead Options</h3>
-	<form>
+<!--
+	VI is a free extension that relies on a few free (but limited) TTS APIs to provide
+	browser TTS ability, we should together be thankful to those API providers
+	(named in our options below) that has made VI possible.</br>
+	In this version, VI adds a new TTS API from IBM Watson as an alternative when you
+	find original one being slow.
 
+	Bad news: The variable-speed TTS (text-to-speech) API which VI uses is currently
+	<a href="https://responsivevoice.org/" target="_blank">down</a> for unknown reason.
+	As a result, you cannot adjust speech rate in this version (feel free to
+	<a target="_blank" href="mailto:zhongwei@udel.edu">inform me</a> other free APIs).
+	<br/>
+	<br/>
+--!>
+<div style="width:350px;" ng-controller="HelloCtrl">
+	<p ng-show="!show_notice">
+	Please continue showing your support <a target="_blank"href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews">here</a>!
+	</p>
+
+	<p class="bg-warning" ng-show="show_notice">
+	Good news, thanks to Doug Robinson's <a target="_blank" href="https://www.youtube.com/watch?v=dky22WqEKqA">feedback</a>, this version adds a parameter to handle "pause
+	in the middle" problem. If you are experiencing the same issue, please adjust
+	the <i>voice buffer gap</i> option below according to your network loading speed.
+	<br/>
+	<br/>
+	Click <a href="" ng-click="hide_notice_forever()">here</a>
+	to dissmiss this message.
+	</p>
+
+<form>
+
+<h3>Choose API</h3>
 	<div class="form-group">
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt1" value="old" ng-change="on_change()">
-		Old TTS API: Smooth read, but you cannot adjust parameters.
+		(Original) TTS API provided by <a target="_blank" href="http://www.voicerss.org/">Voice RSS</a>.
 		</label>
 		</div>
 
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt1" value="new" ng-change="on_change()">
-		New TTS API: Not good at punctuation, but you can adjust parameters.
+		Alternative TTS API from <a target="_blank" href="https://responsivevoice.org">ResponsiveVoice</a>.
 		</label>
 		</div>
 	</div>
 
-	<p class="bg-warning" ng-show="api_opt == 'old'">Notice: To select options below, choose the new TTS API.</p>
-	<fieldset ng-disabled="api_opt == 'old'"> 
+<h3>Gap option</h3>
+	<div class="form-group" ng-show="api_opt=='old'">
+	<label>(start the next buffer how many seconds earlier)</label>
+		<rzslider rz-slider-model="gap" rz-slider-options="my_slider_option"></rzslider>
+		<p>Adjust it yourself when you experience <i>pause-in-the-middle</i> problem.</p>
+		Current voice buffer gap: -{{gap/100}} (sec).
+	</div>
+	<div class="alert alert-warning" ng-show="api_opt=='new'">
+	<p>You cannot control <i>buffer gap</i> with <i>ResponsiveVoice</i> API.</p>
+	</div>
+
 	<!-- ======================== -->
+<h3>Speech adjustment</h3>
+	<p class="bg-warning" ng-show="api_opt == 'old'">Notice: To select options below, choose the second TTS API.</p>
+	<fieldset ng-disabled="api_opt == 'old'"> 
 	<div class="form-group">
 		<label>Speed</label>
 		<select class="form-control" ng-model="selectSpeed" ng-change="on_change()">
@@ -63,24 +105,27 @@
 		<option>British</option>
 		</select>
 	</div>
-	<!-- ======================== -->
 	</fieldset>
+	<!-- ======================== -->
 
 	<div class="form-group">
 	<button class="btn btn-warning" ng-click="test_sentence()">
-	Test the voice in this tab 
+	Test the voice in this tab
 	</button>
 	<button class="btn btn-default" ng-click="reset_to_default()">
 	Reset to default
 	</button>
 	</div>
 
-	</form>
+</form>
 <!--
 <ul>
+<li>show_notice = {{show_notice}}</li>
 <li>Speed = {{selectSpeed}}</li>
 <li>Volume = {{selectVolume}}</li>
 <li>Voice = {{selectVoice}}</li>
+<li>gap = {{gap}}</li>
+<li>api_opt = {{api_opt}}</li>
 </ul>
 -->
 </div>

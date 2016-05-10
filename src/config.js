@@ -3,7 +3,9 @@ function config_default() {
 		'selectSpeed': "0.5",
 		'selectVolume': "1.0",
 		'selectVoice': "US",
-		'api_opt': "old"
+		'api_opt': "old",
+		'show_notice': true,
+		'gap': 120,
 	};
 }
 
@@ -11,7 +13,9 @@ function isEmpty(obj) {
 	if (obj.selectSpeed == null ||
 	obj.selectVolume == null ||
 	obj.selectVoice == null ||
-	obj.api_opt == null)
+	obj.api_opt == null ||
+	obj.show_notice == null ||
+	obj.gap == null)
 		return true;
 	else
 		return false;

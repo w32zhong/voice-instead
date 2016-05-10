@@ -170,6 +170,8 @@ function str_loading()
 	return loader + '<div style="float: right; font-size:15px; padding: 8px 10px 0px 10px; color: #222;">' + 
 	'<span id="jquery_jplayer_status_span">Speach Loading...</span>' + 
 	'<br/>' + 
+	'Please note, some pages cannot load due to security reason.' + 
+	'<br/>' + 
 	'Click <a href="javascript:void(0)" id="user_dismiss_status_link">here</a> to dismiss.' + 
 	'</div>';
 }
@@ -183,8 +185,10 @@ function str_panel()
 	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img src="' +
 	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
 	return play + pause + stop +
-	'Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!' +
-	'<br/> In this version, you can control speed by clicking the upper right popup panel.';
+	//'<br/>Notice: We currently drop variable speed support.' +
+//	'Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!' +
+	'<br/> In this version, there is a way to handle speech <i>pause-in-the-middle</i> problem!' +
+	'<br/> Click upper right Voice Instead popup menu for details.';
 }
 
 function tts(text, turn, pause_at_start, u_are_final_buf) {
@@ -195,15 +199,19 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
   if (g_api_parameters.api_opt == 'old') {
 	tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text);
   } else {
+//	  var tts_api_url = "https://text-to-speech-demo.mybluemix.net/api/synthesize?" +
+//						"voice=en-US_MichaelVoice" + "&" +
+//						"text=" + encodeURIComponent(text);
+//    IBM Watson API for backup.
+
 	  var voice_str = "tl=en-US";
 	  if (g_api_parameters.selectVoice == "British") {
 		voice_str = "tl=en-GB";
 	  }
-
 	  var tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
 						"rate=" + g_api_parameters.selectSpeed + "&" +
 						"vol=" + g_api_parameters.selectVolume + "&" +
-						voice_str + "&" + 
+						voice_str + "&" +
 						"t=" + encodeURIComponent(text);
 	  //上面的API可以调速度！
   }
@@ -222,14 +230,17 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 		  delay_and_show_panel();
 	  }
 
-	// console.log('['+turn+'] left time:'+status.duration+' - '+status.currentTime+' = ' +left_time);
+	console.log('['+turn+'] left time:'+status.duration+' - '+status.currentTime+' = ' +left_time);
 	
 	/* !! Important, if our API provides status.duration (non-zero),
 	 * we should use "if (left_time < 1.2)" to start ealier on the 
 	 * next sentence. */
 	var left_time_trigger = 0;
 	if (g_api_parameters.api_opt == 'old') {
-		left_time_trigger = 1.2
+		//left_time_trigger = 1.2
+		//                     120 (default) / 100 = 1.2
+		left_time_trigger = g_api_parameters.gap / 100;
+		console.log('left_time_trigger = ' + left_time_trigger);
 	}
 
 	if (status.duration > 0 && left_time <= left_time_trigger) {
