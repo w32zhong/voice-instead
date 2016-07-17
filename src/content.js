@@ -186,9 +186,7 @@ function str_panel()
 	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
 	return play + pause + stop +
 	//'<br/>Notice: We currently drop variable speed support.' +
-//	'Show me your support <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">here</a>!' +
-	'<br/> In this version, there is a way to handle speech <i>pause-in-the-middle</i> problem!' +
-	'<br/> Click upper right Voice Instead popup menu for details.';
+	'<br/> This is an AD-free extension, help me <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">rate it</a> now!';
 }
 
 function tts(text, turn, pause_at_start, u_are_final_buf) {
@@ -198,22 +196,24 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 
   if (g_api_parameters.api_opt == 'old') {
 	tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text);
-  } else {
-//	  var tts_api_url = "https://text-to-speech-demo.mybluemix.net/api/synthesize?" +
-//						"voice=en-US_MichaelVoice" + "&" +
-//						"text=" + encodeURIComponent(text);
-//    IBM Watson API for backup.
+  } else if (g_api_parameters.api_opt == 'new') {
 
 	  var voice_str = "tl=en-US";
-	  if (g_api_parameters.selectVoice == "British") {
+	  if (g_api_parameters.selectVoice_new == "British") {
 		voice_str = "tl=en-GB";
 	  }
-	  var tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
+	  tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
 						"rate=" + g_api_parameters.selectSpeed + "&" +
 						"vol=" + g_api_parameters.selectVolume + "&" +
 						voice_str + "&" +
 						"t=" + encodeURIComponent(text);
 	  //上面的API可以调速度！
+  } else {
+	voice_str = g_api_parameters.selectVoice_newnew;
+
+	tts_api_url = "https://text-to-speech-demo.mybluemix.net/api/synthesize?text=" +
+		encodeURIComponent(text) +
+		"&voice=" + voice_str;
   }
 
   var lock=0;

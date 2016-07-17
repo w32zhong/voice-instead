@@ -2,9 +2,9 @@ function config_default() {
 	return {
 		'selectSpeed': "0.5",
 		'selectVolume': "1.0",
-		'selectVoice': "US",
-		'api_opt': "old",
-		'show_notice': true,
+		'selectVoice_newnew': "en-US_AllisonVoice",
+		'selectVoice_new': "US",
+		'api_opt': "newnew",
 		'gap': 120,
 	};
 }
@@ -12,9 +12,9 @@ function config_default() {
 function isEmpty(obj) {
 	if (obj.selectSpeed == null ||
 	obj.selectVolume == null ||
-	obj.selectVoice == null ||
+	obj.selectVoice_new == null ||
+	obj.selectVoice_newnew == null ||
 	obj.api_opt == null ||
-	obj.show_notice == null ||
 	obj.gap == null)
 		return true;
 	else

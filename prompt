@@ -7,12 +7,15 @@ This extension helps you select and speak text in your browser with the followin
 (2) Voice Instead supports extremely long text to be read by a single click without a long delay, and the speech is very smooth!
 
 Usage: 
-Select English text and simply click the `voice instead' item on the content page menu (right click). 
+Select English text (better in a "normal" webpage, not chrome://, not https://) and simply click the `voice instead' item on the content page menu (right click). 
 Click upper right popup icon to adjust speed and volume.
 
 Note: Only English speech conversion is supported so far. And speech conversion on `https' session is not supported due to security reason. 
 
 Important Changes:
+
+Version 16.107.17.36:
+* Introduce IBM TTS API.
 
 Version 16.105.10.34:
 * Address the *pause-in-the-middle* problem by providing an additional parameter for user to adjust.
