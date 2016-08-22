@@ -1,6 +1,6 @@
 {
   "name": "Voice Instead",
-  "version": "16.107.17.36",
+  "version": "16.108.18.37",
   "manifest_version": 2,
   
   "permissions": [
@@ -21,7 +21,7 @@
            "48": "icon48.png",
           "128": "icon.png" },
 
-  "description": "Yet another TTS(text to speech) extension, using very good voice API in natrual human voice.",
+  "description": "Yet another TTS (text to speech) extension, with natrual voice.",
 
   "background": {
     "scripts": ["menu.js"]
