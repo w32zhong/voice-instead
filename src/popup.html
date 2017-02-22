@@ -16,7 +16,7 @@
 	In this version, VI adds a new TTS API from IBM Watson as an alternative when you
 	find original one being slow.
 --!>
-<div style="width:350px;" ng-controller="HelloCtrl">
+<div style="width:375px; padding-left:7px; padding-right:5px" ng-controller="HelloCtrl">
 
 <form>
 <h3>Choose TTS API</h3>
@@ -25,28 +25,28 @@
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt2" value="newnew" ng-change="on_change()">
-		<a target="_blank" href="http://www.ibm.com/watson/developercloud/text-to-speech.html">IBM Watson</a> (gotta more voice options, but no speed option).
+		<a target="_blank" href="http://www.ibm.com/watson/developercloud/text-to-speech.html">IBM Watson</a> (natural voice, but no speed option).
 		</label>
 		</div>
 
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt1" value="new" ng-change="on_change()">
-		<a target="_blank" href="https://responsivevoice.org">ResponsiveVoice</a> (with speed/voice options).
+		<a target="_blank" href="https://responsivevoice.org">ResponsiveVoice</a> (with speed and accent options).
 		</label>
 		</div>
 
 		<div class="radio">
 		<label>
 		<input type="radio" ng-model="api_opt" id="api_opt0" value="old" ng-change="on_change()">
-		<a target="_blank" href="http://www.voicerss.org/">Voice RSS</a> (best for pause-in-the-middle or long network latency).
+		<a target="_blank" href="http://www.voicerss.org/">Voice RSS</a> (possible to adjust the gap between voice trunks to tackle pause-in-the-middle problem).
 		</label>
 		</div>
 
 	</div>
 
 <h3>Available options for this API</h3>
-<h5>(I know ... One cannot simply have the best of all worlds)</h5>
+<h5>(I know, one cannot simply have the best of all worlds)</h5>
 
 	<div class="form-group" ng-show="api_opt=='old'">
 	<label>Early Gap (start the next buffer how much earlier)</label>
@@ -120,6 +120,9 @@
 	Reset to default
 	</button>
 	</div>
+	<p>
+	Not working? Restart your browser and test it in <a target="_blank" href="https://approach0.xyz/docs/">this page</a>.
+	</p>
 
 </form>
 <!--

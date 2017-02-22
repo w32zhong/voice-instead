@@ -83,6 +83,9 @@ function show_load_status()
 		"border": "0",
 		"font-family": "DejaVu Sans",
 		"border-style" : "outset", 
+		"padding": "3px 8px 3px 8px",
+		"box-shadow": "0 1px 2px black",
+		"border-radius": "6px",
 		"-webkit-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
 		"-moz-box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
 		"box-shadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
@@ -125,9 +128,11 @@ function prepare_panel()
 		"background-color": "yellow",
 		"font-size": "11px",
 		"text-align": "center",
-		"padding": "2px 8px 2px 8px",
+		"padding": "3px 8px 3px 8px",
 		"font-family": "DejaVu Sans",
 		"color": "#222",
+		"box-shadow": "0 1px 2px black",
+		"border-radius": "6px",
 		"margin": "0 0 0 0",
 		"height": g_panel_height,
 		"z-index": "2147483640 !important",
@@ -185,8 +190,7 @@ function str_panel()
 	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img src="' +
 	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
 	return play + pause + stop +
-	//'<br/>Notice: We currently drop variable speed support.' +
-	'<br/> This is an AD-free extension, help me <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">rate it</a> now!';
+	'<br/>Like this extension? Help me <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">rate it</a> now!';
 }
 
 function tts(text, turn, pause_at_start, u_are_final_buf) {
@@ -202,7 +206,7 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 	  if (g_api_parameters.selectVoice_new == "British") {
 		voice_str = "tl=en-GB";
 	  }
-	  tts_api_url = "https://code.responsivevoice.org/develop/getvoice.php?" +
+	  tts_api_url = "https://code.responsivevoice.org/getvoice.php?" +
 						"rate=" + g_api_parameters.selectSpeed + "&" +
 						"vol=" + g_api_parameters.selectVolume + "&" +
 						voice_str + "&" +
