@@ -10,9 +10,12 @@ Usage:
 Select English text (better in a "normal" webpage, not chrome://, not https://) and simply click the `voice instead' item on the content page menu (right click). 
 Click upper right popup icon to adjust speed and volume.
 
-Note: Only English speech conversion is supported so far. And speech conversion on `https' session is not supported due to security reason. 
+Note: Only English speech conversion is supported so far. And playing speech on some `https' sessions is not supported due to security reason. 
 
 Important Changes:
+
+Version 17.2.22.39:
+* Update responsivevoice API URL.
 
 Version 16.107.17.36:
 * Introduce IBM TTS API.
