@@ -183,11 +183,11 @@ function str_loading()
 
 function str_panel()
 {
-	var play = '<div id="user_play_speech_link" class="panel_click_button"><img src="' +
+	var play = '<div id="user_play_speech_link" class="panel_click_button"><img class="panel_click_img" src="' +
 	           chrome.extension.getURL("fa-play.png") + '"/></div>';
-	var pause = '<div id="user_pause_speech_link" class="panel_click_button"><img src="' +
+	var pause = '<div id="user_pause_speech_link" class="panel_click_button"><img class="panel_click_img" src="' +
 	           chrome.extension.getURL("fa-pause.png") + '"/></div>';
-	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img src="' +
+	var stop = '<div id="user_stop_speech_link" class="panel_click_button"><img class="panel_click_img" src="' +
 	           chrome.extension.getURL("fa-stop.png") + '"/></div>';
 	return play + pause + stop +
 	'<br/>Like this extension? Help me <a href="https://chrome.google.com/webstore/detail/voice-instead/kphdioekpiaekpmlkhpaicehepbkccbf/reviews" target="_blank">rate it</a> now!';

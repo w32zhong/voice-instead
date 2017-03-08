@@ -9,6 +9,12 @@ div.panel_click_button:hover {
 	margin: 0 5px 0 5px;
 }
 
+img.panel_click_img {
+	display: inline;
+	max-width: 100%;
+	height: auto;
+}
+
 #jquery_jplayer_vi_panel a:link {
     color: #FF00FF;
 	text-decoration: underline;
