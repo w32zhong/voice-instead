@@ -200,6 +200,14 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
 
   if (g_api_parameters.api_opt == 'old') {
 	tts_api_url = "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text);
+
+	//Referer: http://www.voicerss.org/api/demo.aspx
+//	chrome.downloads.download({
+//		url: "http://www.voicerss.org/controls/speech.ashx?hl=en-us&src=" + encodeURIComponent(text),
+//		headers: {"name": "Referer", "value": "http://www.voicerss.org/api/demo.aspx"},
+//		filename: "19891221.mp3" // Optional
+//	});
+
   } else if (g_api_parameters.api_opt == 'new') {
 
 	  var voice_str = "tl=en-US";
@@ -215,7 +223,7 @@ function tts(text, turn, pause_at_start, u_are_final_buf) {
   } else {
 	voice_str = g_api_parameters.selectVoice_newnew;
 
-	tts_api_url = "https://text-to-speech-demo.mybluemix.net/api/synthesize?text=" +
+	tts_api_url = "https://text-to-speech-demo.ng.bluemix.net/api/synthesize?text=" +
 		encodeURIComponent(text) +
 		"&voice=" + voice_str;
   }

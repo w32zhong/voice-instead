@@ -23,7 +23,7 @@ function isEmpty(obj) {
 
 function config_read(ret_callbk) {
 	chrome.storage.local.get(null, function (config) {
-		if (isEmpty(config)) {
+		if (isEmpty(config) || config.api_opt == "old") {
 			console.log('first time read config, set to default values.');
 			config = config_default();
 			config_write(config);
