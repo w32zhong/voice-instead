@@ -14,6 +14,9 @@ Note: Only English speech conversion is supported so far. And playing speech on 
 
 Important Changes:
 
+Version 17.12.1.41:
+* Update IBM API URL, drop voicerss API temporarily because its "Referer" restriction.
+
 Version 17.3.3.40:
 * Fixed panel image style to avoid unintended CSS inheritance.
 
